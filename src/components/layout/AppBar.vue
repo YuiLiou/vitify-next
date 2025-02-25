@@ -44,13 +44,7 @@ const toggleDark = useToggle<true, false | null>(isDark)
         @update:model-value="toggleDark"
       />
     </div>
-    <v-btn
-      icon
-      href="https://github.com/kingyue737/vitify-next"
-      size="small"
-      class="ml-2"
-      target="_blank"
-    >
+    <v-btn icon size="small" class="ml-2" target="_blank">
       <v-icon size="30" icon="mdi-github" />
     </v-btn>
   </v-app-bar>
