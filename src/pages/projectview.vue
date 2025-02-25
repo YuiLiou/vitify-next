@@ -43,7 +43,8 @@ const headers: DataTableHeaders = [
   { title: 'Priority', key: 'priority' },
   { title: 'Mode', key: 'actionMode' },
   { title: 'Group', key: 'groupMain' },
-  { title: 'Sub', key: 'groupSub' },  
+  { title: 'Sub', key: 'groupSub' },
+  { title: 'Actions', key: 'actions', sortable: false },
 ]
 
 const getProject = async () => {
@@ -102,6 +103,29 @@ const getProject = async () => {
             item-value="name"
             :search="search"
           >
+            <template #item.actions="{ item }">
+              <v-defaults-provider
+                :defaults="{
+                  VBtn: {
+                    size: 20,
+                    rounded: 'sm',
+                    variant: 'text',
+                    class: 'ml-1',
+                    color: '',
+                  },
+                  VIcon: {
+                    size: 20,
+                  },
+                }"
+              >
+                <v-tooltip location="top">
+                  <template #activator="{ props }">
+                    <v-btn icon="mdi-rocket-launch-outline" v-bind="props" />
+                  </template>
+                  <span>Go!</span>
+                </v-tooltip>
+              </v-defaults-provider>
+            </template>
           </v-data-table>
         </v-card>
       </v-col>
