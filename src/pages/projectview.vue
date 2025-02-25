@@ -43,6 +43,7 @@ const headers: DataTableHeaders = [
   { title: 'Priority', key: 'priority' },
   { title: 'Mode', key: 'actionMode' },
   { title: 'Group', key: 'groupMain' },
+  { title: 'Sub', key: 'groupSub' },  
 ]
 
 const getProject = async () => {
