@@ -23,7 +23,7 @@ const fetch = async () => {
 definePage({
   meta: {
     icon: 'mdi-table',
-    title: 'Data Table',
+    title: 'Sample View',
     drawerIndex: 3,
   },
 })
