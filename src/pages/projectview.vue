@@ -79,7 +79,6 @@ const getProject = async () => {
                 label="IC"
                 :items="ssd_ics"
                 variant="underlined"
-                :width="150"
               ></v-select>
             </v-col>
             <v-col cols="auto">
