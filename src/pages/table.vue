@@ -1,15 +1,6 @@
 <script setup lang="ts">
 import DialogConfirm from '@/components/DialogConfirm.vue'
 import type { DataTableHeaders } from '@/plugins/vuetify'
-import { getTesterStatus, fetchSamples } from '@/scripts/SampleHandlers'
-
-const ipString = ref('172.20.83.89')
-const samples = ref<Promise<any>[]>([])
-
-const fetch = async () => {
-  let response = await fetchSamples(ipString.value)
-  samples.value = response.data['samples']
-}
 
 definePage({
   meta: {
@@ -149,21 +140,6 @@ const desserts = ref([
           <client-only>
             <teleport to="#app-bar">
               <v-row>
-                <v-col cols="auto">
-                  <v-text-field
-                    v-model="ip"
-                    prepend-inner-icon="mdi-lan"
-                    label="IP Address"
-                    single-line
-                    hide-details
-                    density="compact"
-                    class="mr-2"
-                    rounded="xl"
-                    flat
-                    variant="solo"
-                    style="width: 250px"
-                  />
-                </v-col>
                 <v-col cols="auto">
                   <v-text-field
                     v-model="search"

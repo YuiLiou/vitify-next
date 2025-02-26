@@ -30,5 +30,6 @@ declare module 'vue-router/auto-routes' {
     '/projectview': RouteRecordInfo<'/projectview', '/projectview', Record<never, never>, Record<never, never>>,
     '/sampleview': RouteRecordInfo<'/sampleview', '/sampleview', Record<never, never>, Record<never, never>>,
     '/table': RouteRecordInfo<'/table', '/table', Record<never, never>, Record<never, never>>,
+    '/taskview': RouteRecordInfo<'/taskview', '/taskview', Record<never, never>, Record<never, never>>,
   }
 }

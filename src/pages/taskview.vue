@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import DialogConfirm from '@/components/DialogConfirm.vue'
 import type { DataTableHeaders } from '@/plugins/vuetify'
 import {
   fetchProjects,
@@ -7,13 +6,11 @@ import {
   formatDateTime,
 } from '@/scripts/ProjectHandlers'
 import { ssd_ics } from '@/scripts/IcHandlers'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import DatePicker from 'vue-datepicker-next'
 import 'vue-datepicker-next/index.css'
 
-const ipString = ref('172.20.83.89')
 const projects = ref<any[]>([])
-const selectedDate = ref<string | null>(null)
 const selectedIc = ref('PS5027')
 const search = ref('')
 const date_range = ref([
@@ -25,7 +22,7 @@ const projectType = ref('2')
 definePage({
   meta: {
     icon: 'mdi-table',
-    title: 'Project View',
+    title: 'Task View',
     drawerIndex: 3,
   },
 })
@@ -44,7 +41,7 @@ const headers: DataTableHeaders = [
   { title: 'Mode', key: 'actionMode' },
   { title: 'Group', key: 'groupMain' },
   { title: 'Sub', key: 'groupSub' },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: 'Action', key: 'action', sortable: false },
 ]
 
 const getProject = async () => {
@@ -102,7 +99,7 @@ const getProject = async () => {
             item-value="name"
             :search="search"
           >
-            <template #item.actions="{ item }">
+            <template #item.action="{ item }">
               <v-defaults-provider
                 :defaults="{
                   VBtn: {
