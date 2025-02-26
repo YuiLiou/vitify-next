@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import DialogConfirm from '@/components/DialogConfirm.vue'
 import type { DataTableHeaders } from '@/plugins/vuetify'
 import {
   fetchProjects,
@@ -7,13 +6,11 @@ import {
   formatDateTime,
 } from '@/scripts/ProjectHandlers'
 import { ssd_ics } from '@/scripts/IcHandlers'
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import DatePicker from 'vue-datepicker-next'
 import 'vue-datepicker-next/index.css'
 
-const ipString = ref('172.20.83.89')
 const projects = ref<any[]>([])
-const selectedDate = ref<string | null>(null)
 const selectedIc = ref('PS5027')
 const search = ref('')
 const date_range = ref([
