@@ -44,7 +44,7 @@ function openDialog(ctrlId: string) {
 
 definePage({
   meta: {
-    icon: 'mdi-table',
+    icon: 'mdi-french-fries',
     title: 'Sample View',
     drawerIndex: 3,
   },

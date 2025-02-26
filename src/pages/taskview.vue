@@ -21,7 +21,7 @@ const projectType = ref('2')
 
 definePage({
   meta: {
-    icon: 'mdi-table',
+    icon: 'mdi-hamburger',
     title: 'Task View',
     drawerIndex: 3,
   },

@@ -24,7 +24,7 @@ const projectType = ref('2')
 
 definePage({
   meta: {
-    icon: 'mdi-table',
+    icon: 'mdi-food-drumstick-outline',
     title: 'Project View',
     drawerIndex: 3,
   },
