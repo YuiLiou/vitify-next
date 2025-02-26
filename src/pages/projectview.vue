@@ -18,6 +18,8 @@ const date_range = ref([
   new Date(Date.now() + 1 * 24 * 60 * 60 * 1000),
 ])
 const projectType = ref('2')
+const dialog = ref(false)
+const selectedPjID = ref('')
 
 definePage({
   meta: {
@@ -45,11 +47,11 @@ const headers: DataTableHeaders = [
 ]
 
 const getProject = async () => {
-  const start_date = date_range.value[0].toISOString().substring(0, 10)
-  const end_date = date_range.value[1].toISOString().substring(0, 10)
+  const startDate = date_range.value[0].toISOString().substring(0, 10)
+  const endDate = date_range.value[1].toISOString().substring(0, 10)
   let response = await fetchProjects(
-    start_date,
-    end_date,
+    startDate,
+    endDate,
     selectedIc.value,
     '',
     projectType.value,
@@ -60,6 +62,11 @@ const getProject = async () => {
     status: getProjectStatus(p.status),
     establishDate: formatDateTime(p.establishDate),
   }))
+}
+
+function openDialog(projectID: string) {
+  dialog.value = true
+  selectedPjID.value = projectID
 }
 </script>
 
@@ -116,7 +123,11 @@ const getProject = async () => {
               >
                 <v-tooltip location="top">
                   <template #activator="{ props }">
-                    <v-btn icon="mdi-rocket-launch-outline" v-bind="props" />
+                    <v-btn
+                      icon="mdi-rocket-launch-outline"
+                      v-bind="props"
+                      @click="openDialog(item.pjId)"
+                    />
                   </template>
                   <span>Go!</span>
                 </v-tooltip>
@@ -126,5 +137,8 @@ const getProject = async () => {
         </v-card>
       </v-col>
     </v-row>
+    <v-dialog v-model="dialog">
+      <card-tasks :projectID="selectedPjID" @close="dialog = false" />
+    </v-dialog>
   </v-container>
 </template>

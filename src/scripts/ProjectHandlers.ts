@@ -1,15 +1,15 @@
 import axios from 'axios'
 
 export const fetchProjects = async (
-  start_date: string,
-  end_date: string,
+  startDate: string,
+  endDate: string,
   ic: string,
   fwVersion: string,
   type: string,
 ): Promise<any> => {
   const response = await axios.post(`https://tic.phison.com/v1/nes/projects`, {
-    start_time: start_date,
-    end_time: end_date,
+    start_time: startDate,
+    end_time: endDate,
     ic: ic,
     fw: fwVersion,
     type: type,

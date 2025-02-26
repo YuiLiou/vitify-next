@@ -15,6 +15,7 @@ declare module 'vue' {
     AppNotificationItem: typeof import('./components/layout/AppNotificationItem.vue')['default']
     ButtonSettings: typeof import('./components/layout/ButtonSettings.vue')['default']
     CardReason: typeof import('./components/CardReason.vue')['default']
+    CardTasks: typeof import('./components/CardTasks.vue')['default']
     ChartBar: typeof import('./components/demo-charts/ChartBar.vue')['default']
     ChartLine: typeof import('./components/demo-charts/ChartLine.vue')['default']
     ChartPie: typeof import('./components/demo-charts/ChartPie.vue')['default']

@@ -1,12 +1,11 @@
 <template>
   <v-card>
-    <v-card-title class="headline">Dialog Title</v-card-title>
-    <v-card-text> </v-card-text>
-    <v-card-actions>
+    <v-card-title class="headline">未派工原因</v-card-title>
+    <v-card-text>
       <v-spacer></v-spacer>
       <v-text-field>CHIP ID: {{ ctrlId }} </v-text-field>
       <v-btn color="primary" text="Ok" @click="emit('close')">Close</v-btn>
-    </v-card-actions>
+    </v-card-text>
   </v-card>
 </template>
 
