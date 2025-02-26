@@ -14,11 +14,13 @@ declare module 'vue' {
     AppNotification: typeof import('./components/layout/AppNotification.vue')['default']
     AppNotificationItem: typeof import('./components/layout/AppNotificationItem.vue')['default']
     ButtonSettings: typeof import('./components/layout/ButtonSettings.vue')['default']
+    CardReason: typeof import('./components/CardReason.vue')['default']
     ChartBar: typeof import('./components/demo-charts/ChartBar.vue')['default']
     ChartLine: typeof import('./components/demo-charts/ChartLine.vue')['default']
     ChartPie: typeof import('./components/demo-charts/ChartPie.vue')['default']
     ChartRadar: typeof import('./components/demo-charts/ChartRadar.vue')['default']
     DialogConfirm: typeof import('./components/DialogConfirm.vue')['default']
+    DialogReason: typeof import('./components/DialogReason.vue')['default']
     RouterWrapper: typeof import('./components/layout/RouterWrapper.vue')['default']
     StatsCard: typeof import('./components/StatsCard.vue')['default']
   }

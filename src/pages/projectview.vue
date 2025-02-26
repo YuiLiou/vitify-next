@@ -44,7 +44,7 @@ const headers: DataTableHeaders = [
   { title: 'Mode', key: 'actionMode' },
   { title: 'Group', key: 'groupMain' },
   { title: 'Sub', key: 'groupSub' },
-  { title: 'Actions', key: 'actions', sortable: false },
+  { title: 'Action', key: 'action', sortable: false },
 ]
 
 const getProject = async () => {
@@ -102,7 +102,7 @@ const getProject = async () => {
             item-value="name"
             :search="search"
           >
-            <template #item.actions="{ item }">
+            <template #item.action="{ item }">
               <v-defaults-provider
                 :defaults="{
                   VBtn: {

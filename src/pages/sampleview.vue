@@ -1,17 +1,19 @@
 <script setup lang="ts">
 import type { DataTableHeaders } from '@/plugins/vuetify'
 import {
-  getTesterStatus,
   fetchSamplesByIc,
   fetchSamplesByIp,
   formatDateTime,
 } from '@/scripts/SampleHandlers'
+import { getTesterStatus } from '@/scripts/TesterHandlers'
 import { ssd_ics } from '@/scripts/IcHandlers'
 
 const ipString = ref('')
 const samples = ref<any[]>([])
 const selectedIc = ref('PS5027')
+const selectedCtrlId = ref('')
 const search = ref('')
+const dialog = ref(false)
 
 const fetchByIp = async () => {
   let response = await fetchSamplesByIp(ipString.value)
@@ -35,6 +37,11 @@ const fetchByIc = async () => {
   }))
 }
 
+function openDialog(ctrlId: string) {
+  dialog.value = true
+  selectedCtrlId.value = ctrlId
+}
+
 definePage({
   meta: {
     icon: 'mdi-table',
@@ -55,6 +62,7 @@ const headers: DataTableHeaders = [
   { title: 'IP', key: 'ip' },
   { title: 'Status', key: 'status' },
   { title: 'Modify', key: 'modifyDate' },
+  { title: 'Action', key: 'action', sortable: false },
 ]
 </script>
 
@@ -119,9 +127,39 @@ const headers: DataTableHeaders = [
             item-value="name"
             :search="search"
           >
+            <template #item.action="{ item }">
+              <v-defaults-provider
+                :defaults="{
+                  VBtn: {
+                    size: 20,
+                    rounded: 'sm',
+                    variant: 'text',
+                    class: 'ml-1',
+                    color: '',
+                  },
+                  VIcon: {
+                    size: 20,
+                  },
+                }"
+              >
+                <v-tooltip location="top">
+                  <template #activator="{ props }">
+                    <v-btn
+                      icon="mdi-rocket-launch-outline"
+                      v-bind="props"
+                      @click="openDialog(item.ctrlId)"
+                    />
+                  </template>
+                  <span>Go!</span>
+                </v-tooltip>
+              </v-defaults-provider>
+            </template>
           </v-data-table>
         </v-card>
       </v-col>
     </v-row>
+    <v-dialog v-model="dialog" max-width="600px">
+      <card-reason :ctrlId="selectedCtrlId" @close="dialog = false" />
+    </v-dialog>
   </v-container>
 </template>
