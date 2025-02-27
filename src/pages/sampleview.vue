@@ -1,32 +1,36 @@
 <script setup lang="ts">
-import type { DataTableHeaders } from '@/plugins/vuetify'
+import type { DataTableHeaders } from '@/plugins/vuetify';
 import {
   fetchSamplesByIc,
   fetchSamplesByIp,
   formatDateTime,
-} from '@/scripts/SampleHandlers'
-import { getTesterStatus } from '@/scripts/TesterHandlers'
-import { ssd_ics } from '@/scripts/IcHandlers'
+} from '@/scripts/SampleHandlers';
+import { getTesterStatus } from '@/scripts/TesterHandlers';
+import { ssd_ics } from '@/scripts/IcHandlers';
 
-const ipString = ref('')
-const samples = ref<any[]>([])
-const selectedIc = ref('PS5027')
-const selectedCtrlId = ref('')
-const search = ref('')
-const dialog = ref(false)
+const ipString = ref('');
+const samples = ref<any[]>([]);
+const selectedIc = ref('PS5027');
+const selectedCtrlId = ref('');
+const search = ref('');
+const dialog = ref(false);
+const loading = ref(false);
 
 const fetchByIp = async () => {
-  let response = await fetchSamplesByIp(ipString.value)
+  loading.value = true;
+  let response = await fetchSamplesByIp(ipString.value);
   samples.value = await response.data['samples'].map((sample: any) => ({
     ...sample,
     fwVersion: `${sample.fwVersion}-${sample.fwSubVersion}`,
     status: getTesterStatus(sample.testerStatus),
     modifyDate: formatDateTime(sample.modifyDate),
-  }))
+  }));
+  loading.value = false;
 }
 
 const fetchByIc = async () => {
-  let response = await fetchSamplesByIc(selectedIc.value)
+  loading.value = true
+  let response = await fetchSamplesByIc(selectedIc.value);
   samples.value = await response.data['samples'].map((sample: any) => ({
     ...sample,
     sampleId: sample.id,
@@ -34,7 +38,8 @@ const fetchByIc = async () => {
     modifyDate: formatDateTime(sample.modifyDate),
     fwVersion: sample.firmware,
     fwFeature: sample.firmwareFeature,
-  }))
+  }));
+  loading.value = false;
 }
 
 function openDialog(ctrlId: string) {
@@ -94,7 +99,6 @@ const headers: DataTableHeaders = [
             <v-col cols="auto">
               <v-select
                 v-model="selectedIc"
-                label="IC"
                 :items="ssd_ics"
                 variant="underlined"
                 prepend-inner-icon="mdi-memory"
@@ -126,6 +130,8 @@ const headers: DataTableHeaders = [
             :items="samples"
             item-value="name"
             :search="search"
+            loading-text="Loading... Please wait"
+            :loading="loading"
           >
             <template #item.action="{ item }">
               <v-defaults-provider
@@ -158,7 +164,7 @@ const headers: DataTableHeaders = [
         </v-card>
       </v-col>
     </v-row>
-    <v-dialog v-model="dialog" max-width="600px">
+    <v-dialog v-model="dialog">
       <card-reason :ctrlId="selectedCtrlId" @close="dialog = false" />
     </v-dialog>
   </v-container>

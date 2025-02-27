@@ -16,6 +16,13 @@ export const fetchSamplesByIc = async (ic: string): Promise<any> => {
   return response
 }
 
+export const fetchReasonByChipId = async (chipId: string): Promise<any> => {
+  const response = await axios.get(
+    `http://192.168.40.235:8000/v2/view/dispatch/reason?chip_ids=${chipId}`
+  )
+  return response
+}
+
 export const formatDateTime = (dateTime: any) => {
   const date = new Date(dateTime)
   const formattedDate = date.toISOString().split('T')[0]

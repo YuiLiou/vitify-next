@@ -20,6 +20,7 @@ const date_range = ref([
 const projectType = ref('2')
 const dialog = ref(false)
 const selectedPjID = ref('')
+const loading = ref(false)
 
 definePage({
   meta: {
@@ -47,21 +48,23 @@ const headers: DataTableHeaders = [
 ]
 
 const getProject = async () => {
-  const startDate = date_range.value[0].toISOString().substring(0, 10)
-  const endDate = date_range.value[1].toISOString().substring(0, 10)
+  loading.value = true;
+  const startDate = date_range.value[0].toISOString().substring(0, 10);
+  const endDate = date_range.value[1].toISOString().substring(0, 10);
   let response = await fetchProjects(
     startDate,
     endDate,
     selectedIc.value,
     '',
     projectType.value,
-  )
+  );
   projects.value = response.data['pj'].map((p: any) => ({
     ...p,
     fwVersion: `${p.fwVersion}-${p.fwSubVersion}`,
     status: getProjectStatus(p.status),
     establishDate: formatDateTime(p.establishDate),
-  }))
+  }));
+  loading.value = false;
 }
 
 function openDialog(projectID: string) {
@@ -80,7 +83,6 @@ function openDialog(projectID: string) {
             <v-col cols="auto">
               <v-select
                 v-model="selectedIc"
-                label="IC"
                 :items="ssd_ics"
                 variant="underlined"
               ></v-select>
@@ -105,6 +107,8 @@ function openDialog(projectID: string) {
             :items="projects"
             item-value="name"
             :search="search"
+            loading-text="Loading... Please wait"
+            :loading="loading"
           >
             <template #item.action="{ item }">
               <v-defaults-provider
