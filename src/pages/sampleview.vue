@@ -1,36 +1,36 @@
 <script setup lang="ts">
-import type { DataTableHeaders } from '@/plugins/vuetify';
+import type { DataTableHeaders } from '@/plugins/vuetify'
 import {
   fetchSamplesByIc,
   fetchSamplesByIp,
   formatDateTime,
-} from '@/scripts/SampleHandlers';
-import { getTesterStatus } from '@/scripts/TesterHandlers';
-import { ssd_ics } from '@/scripts/IcHandlers';
+} from '@/scripts/SampleHandlers'
+import { getTesterStatus } from '@/scripts/TesterHandlers'
+import { ssd_ics } from '@/scripts/IcHandlers'
 
-const ipString = ref('');
-const samples = ref<any[]>([]);
-const selectedIc = ref('PS5027');
-const selectedCtrlId = ref('');
-const search = ref('');
-const dialog = ref(false);
-const loading = ref(false);
+const ipString = ref('')
+const samples = ref<any[]>([])
+const selectedIc = ref('PS5027')
+const selectedCtrlId = ref('')
+const search = ref('')
+const dialog = ref(false)
+const loading = ref(false)
 
 const fetchByIp = async () => {
-  loading.value = true;
-  let response = await fetchSamplesByIp(ipString.value);
+  loading.value = true
+  let response = await fetchSamplesByIp(ipString.value)
   samples.value = await response.data['samples'].map((sample: any) => ({
     ...sample,
     fwVersion: `${sample.fwVersion}-${sample.fwSubVersion}`,
     status: getTesterStatus(sample.testerStatus),
     modifyDate: formatDateTime(sample.modifyDate),
-  }));
-  loading.value = false;
+  }))
+  loading.value = false
 }
 
 const fetchByIc = async () => {
   loading.value = true
-  let response = await fetchSamplesByIc(selectedIc.value);
+  let response = await fetchSamplesByIc(selectedIc.value)
   samples.value = await response.data['samples'].map((sample: any) => ({
     ...sample,
     sampleId: sample.id,
@@ -38,8 +38,8 @@ const fetchByIc = async () => {
     modifyDate: formatDateTime(sample.modifyDate),
     fwVersion: sample.firmware,
     fwFeature: sample.firmwareFeature,
-  }));
-  loading.value = false;
+  }))
+  loading.value = false
 }
 
 function openDialog(ctrlId: string) {
@@ -116,12 +116,12 @@ const headers: DataTableHeaders = [
                 rounded="xl"
                 flat
                 variant="solo"
-                style="width: 250px"
+                style="width: 150px"
               />
             </v-col>
             <v-col>
               <v-btn icon @click="ipString ? fetchByIp() : fetchByIc()">
-                <v-icon>mdi-rocket-launch</v-icon>
+                <v-icon>mdi-run-fast</v-icon>
               </v-btn>
             </v-col>
           </v-row>
@@ -165,7 +165,7 @@ const headers: DataTableHeaders = [
       </v-col>
     </v-row>
     <v-dialog v-model="dialog">
-      <card-reason :ctrlId="selectedCtrlId" @close="dialog = false" />
+      <card-projects :ctrlId="selectedCtrlId" @close="dialog = false" />
     </v-dialog>
   </v-container>
 </template>

@@ -48,23 +48,23 @@ const headers: DataTableHeaders = [
 ]
 
 const getProject = async () => {
-  loading.value = true;
-  const startDate = date_range.value[0].toISOString().substring(0, 10);
-  const endDate = date_range.value[1].toISOString().substring(0, 10);
+  loading.value = true
+  const startDate = date_range.value[0].toISOString().substring(0, 10)
+  const endDate = date_range.value[1].toISOString().substring(0, 10)
   let response = await fetchProjects(
     startDate,
     endDate,
     selectedIc.value,
     '',
     projectType.value,
-  );
+  )
   projects.value = response.data['pj'].map((p: any) => ({
     ...p,
     fwVersion: `${p.fwVersion}-${p.fwSubVersion}`,
     status: getProjectStatus(p.status),
     establishDate: formatDateTime(p.establishDate),
-  }));
-  loading.value = false;
+  }))
+  loading.value = false
 }
 
 function openDialog(projectID: string) {
@@ -98,7 +98,7 @@ function openDialog(projectID: string) {
             </v-col>
             <v-col>
               <v-btn icon @click="getProject">
-                <v-icon>mdi-rocket-launch</v-icon>
+                <v-icon>mdi-run-fast</v-icon>
               </v-btn>
             </v-col>
           </v-row>
