@@ -4,7 +4,22 @@
     <v-card-text>
       <v-spacer></v-spacer>
       <v-text-field>{{ projectId }} </v-text-field>
-      <v-data-table :headers="headers" :items="tasks" item-value="name">
+      <v-data-table :headers="headers" :items="taskDetails" item-value="name">
+        <template #item.projectValid="{ item }">
+          <v-icon :color="item.projectValid ? 'green' : 'red'">
+            {{ item.projectValid ? 'mdi-check-circle' : 'mdi-alert-circle' }}
+          </v-icon>
+        </template>
+        <template #item.taskValid="{ item }">
+          <v-icon :color="item.taskValid ? 'green' : 'red'">
+            {{ item.taskValid ? 'mdi-check-circle' : 'mdi-alert-circle' }}
+          </v-icon>
+        </template>
+        <template #item.sampleValid="{ item }">
+          <v-icon :color="item.sampleValid ? 'green' : 'red'">
+            {{ item.sampleValid ? 'mdi-check-circle' : 'mdi-alert-circle' }}
+          </v-icon>
+        </template>
       </v-data-table>
       <v-btn color="primary" text="Ok" @click="emit('close')">Close</v-btn>
     </v-card-text>
@@ -13,6 +28,7 @@
 
 <script setup lang="ts">
 import type { DataTableHeaders } from '@/plugins/vuetify'
+import { ref } from 'vue'
 
 const props = withDefaults(
   defineProps<{
@@ -24,8 +40,12 @@ const props = withDefaults(
     tasks: () => [],
   },
 )
+const taskDetails = ref<any[]>([])
 
 const headers: DataTableHeaders = [
+  { title: 'Project', key: 'projectValid', sortable: false },
+  { title: 'Task', key: 'taskValid', sortable: false },
+  { title: 'Sample', key: 'sampleValid', sortable: false },
   {
     title: 'TK_ID',
     key: 'taskId',
@@ -35,6 +55,20 @@ const headers: DataTableHeaders = [
   { title: 'Tool', key: 'tool' },
   { title: 'Pattern', key: 'pattern' },
 ]
+onMounted(async () => {
+  taskDetails.value = props.tasks.map((t: any) => ({
+    ...t,
+    projectValid: Object.values(t.sampleIdToMismatch).every(
+      (m: any) => m.projectRelatives.length == 0,
+    ),
+    taskValid: Object.values(t.sampleIdToMismatch).every(
+      (m: any) => m.taskRelatives.length == 0,
+    ),
+    sampleValid: Object.values(t.sampleIdToMismatch).every(
+      (m: any) => m.sampleRelatives.length == 0,
+    ),
+  }))
+})
 
 const emit = defineEmits(['close'])
 </script>
