@@ -80,23 +80,29 @@ function openDialog(projectID: string) {
         <v-card>
           <teleport to="#app-bar" />
           <v-row>
-            <v-col cols="auto">
+            <v-col cols="auto" class="d-flex align-center">
               <v-select
                 v-model="selectedIc"
                 :items="ssd_ics"
                 variant="underlined"
+                prepend-inner-icon="mdi-memory"
+                density="compact"
+                class="mr-2 ml-4"
+                hide-details
+                style="width: 150px"
               />
             </v-col>
-            <v-col cols="auto">
+            <v-col cols="auto" class="d-flex align-center">
               <date-picker
                 v-model:value="date_range"
                 type="date"
                 range
                 placeholder="select date range"
+                class="my-auto"
               />
             </v-col>
-            <v-col>
-              <v-btn icon @click="getProject">
+            <v-col class="d-flex align-center">
+              <v-btn icon variant="text" @click="getProject">
                 <v-icon>mdi-run-fast</v-icon>
               </v-btn>
             </v-col>

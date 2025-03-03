@@ -96,15 +96,19 @@ const headers: DataTableHeaders = [
             </v-row>
           </teleport>
           <v-row>
-            <v-col cols="auto">
+            <v-col cols="auto" class="d-flex align-center">
               <v-select
                 v-model="selectedIc"
                 :items="ssd_ics"
                 variant="underlined"
                 prepend-inner-icon="mdi-memory"
+                density="compact"
+                class="mr-2 ml-4"
+                hide-details
+                style="width: 150px"
               />
             </v-col>
-            <v-col cols="auto">
+            <v-col cols="auto" class="d-flex align-center">
               <v-text-field
                 v-model="ipString"
                 prepend-inner-icon="mdi-lan"
@@ -114,13 +118,16 @@ const headers: DataTableHeaders = [
                 density="compact"
                 class="mr-2"
                 rounded="xl"
-                flat
-                variant="solo"
+                variant="underlined"
                 style="width: 150px"
               />
             </v-col>
-            <v-col>
-              <v-btn icon @click="ipString ? fetchByIp() : fetchByIc()">
+            <v-col class="d-flex align-center">
+              <v-btn
+                icon
+                variant="text"
+                @click="ipString ? fetchByIp() : fetchByIc()"
+              >
                 <v-icon>mdi-run-fast</v-icon>
               </v-btn>
             </v-col>
@@ -165,7 +172,7 @@ const headers: DataTableHeaders = [
       </v-col>
     </v-row>
     <v-dialog v-model="dialog">
-      <card-projects :ctrlId="selectedCtrlId" @close="dialog = false" />
+      <card-projects :ctrl-id="selectedCtrlId" @close="dialog = false" />
     </v-dialog>
   </v-container>
 </template>
