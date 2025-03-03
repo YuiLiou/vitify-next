@@ -147,7 +147,7 @@ function openDialog(projectID: string) {
       </v-col>
     </v-row>
     <v-dialog v-model="dialog">
-      <card-tasks :projectID="selectedPjID" @close="dialog = false" />
+      <card-tasks :project-id="selectedPjID" @close="dialog = false" />
     </v-dialog>
   </v-container>
 </template>

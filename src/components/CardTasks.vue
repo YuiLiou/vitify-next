@@ -14,13 +14,13 @@ import { fetchTasksByPjID } from '@/scripts/TaskHandlers'
 import type { DataTableHeaders } from '@/plugins/vuetify'
 const props = withDefaults(
   defineProps<{
-    projectID: string
+    projectId: string
   }>(),
   {
-    projectID: '',
+    projectId: '',
   },
 )
-const projectID = toRef(props, 'projectID')
+const projectID = toRef(props, 'projectId')
 const tasks = ref<any[]>([])
 const headers: DataTableHeaders = [
   {
