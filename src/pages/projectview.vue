@@ -51,7 +51,7 @@ const getProject = async () => {
   loading.value = true
   const startDate = date_range.value[0].toISOString().substring(0, 10)
   const endDate = date_range.value[1].toISOString().substring(0, 10)
-  let response = await fetchProjects(
+  const response = await fetchProjects(
     startDate,
     endDate,
     selectedIc.value,
@@ -78,14 +78,14 @@ function openDialog(projectID: string) {
     <v-row>
       <v-col>
         <v-card>
-          <teleport to="#app-bar"> </teleport>
+          <teleport to="#app-bar" />
           <v-row>
             <v-col cols="auto">
               <v-select
                 v-model="selectedIc"
                 :items="ssd_ics"
                 variant="underlined"
-              ></v-select>
+              />
             </v-col>
             <v-col cols="auto">
               <date-picker
@@ -93,8 +93,7 @@ function openDialog(projectID: string) {
                 type="date"
                 range
                 placeholder="select date range"
-              >
-              </date-picker>
+              />
             </v-col>
             <v-col>
               <v-btn icon @click="getProject">

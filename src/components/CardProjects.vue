@@ -2,8 +2,10 @@
   <v-card>
     <v-card-title class="headline">未派工原因</v-card-title>
     <v-card-text>
-      <v-spacer></v-spacer>
-      <v-text-field>CHIP ID: {{ ctrlId }} </v-text-field>
+      <v-spacer />
+      <v-text-field
+        ><v-icon> {{ 'mdi-magnify' }}</v-icon> {{ ctrlId }}
+      </v-text-field>
       <v-data-table
         :headers="headers"
         :items="projects"
@@ -56,7 +58,7 @@
       </v-data-table>
       <v-dialog v-model="dialog">
         <card-reasons
-          :projectId="selectedPjId"
+          :project-id="selectedPjId"
           :tasks="idToTasks.get(selectedPjId) || []"
           @close="dialog = false"
         />

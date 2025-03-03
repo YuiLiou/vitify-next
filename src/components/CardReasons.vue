@@ -2,7 +2,7 @@
   <v-card>
     <v-card-title class="headline">未派工原因</v-card-title>
     <v-card-text>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-text-field>{{ projectId }} </v-text-field>
       <v-data-table :headers="headers" :items="taskDetails" item-value="name">
         <template #item.projectValid="{ item }">

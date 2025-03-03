@@ -18,7 +18,7 @@ const loading = ref(false)
 
 const fetchByIp = async () => {
   loading.value = true
-  let response = await fetchSamplesByIp(ipString.value)
+  const response = await fetchSamplesByIp(ipString.value)
   samples.value = await response.data['samples'].map((sample: any) => ({
     ...sample,
     fwVersion: `${sample.fwVersion}-${sample.fwSubVersion}`,
@@ -30,7 +30,7 @@ const fetchByIp = async () => {
 
 const fetchByIc = async () => {
   loading.value = true
-  let response = await fetchSamplesByIc(selectedIc.value)
+  const response = await fetchSamplesByIc(selectedIc.value)
   samples.value = await response.data['samples'].map((sample: any) => ({
     ...sample,
     sampleId: sample.id,
@@ -102,7 +102,7 @@ const headers: DataTableHeaders = [
                 :items="ssd_ics"
                 variant="underlined"
                 prepend-inner-icon="mdi-memory"
-              ></v-select>
+              />
             </v-col>
             <v-col cols="auto">
               <v-text-field

@@ -47,7 +47,7 @@ const headers: DataTableHeaders = [
 const getProject = async () => {
   const start_date = date_range.value[0].toISOString().substring(0, 10)
   const end_date = date_range.value[1].toISOString().substring(0, 10)
-  let response = await fetchProjects(
+  const response = await fetchProjects(
     start_date,
     end_date,
     selectedIc.value,
@@ -68,7 +68,7 @@ const getProject = async () => {
     <v-row>
       <v-col>
         <v-card>
-          <teleport to="#app-bar"> </teleport>
+          <teleport to="#app-bar" />
           <v-row>
             <v-col cols="auto">
               <v-select
@@ -76,7 +76,7 @@ const getProject = async () => {
                 label="IC"
                 :items="ssd_ics"
                 variant="underlined"
-              ></v-select>
+              />
             </v-col>
             <v-col cols="auto">
               <date-picker
@@ -84,8 +84,7 @@ const getProject = async () => {
                 type="date"
                 range
                 placeholder="select date range"
-              >
-              </date-picker>
+              />
             </v-col>
             <v-col>
               <v-btn icon @click="getProject">
@@ -99,29 +98,27 @@ const getProject = async () => {
             item-value="name"
             :search="search"
           >
-            <template #item.action="{ item }">
-              <v-defaults-provider
-                :defaults="{
-                  VBtn: {
-                    size: 20,
-                    rounded: 'sm',
-                    variant: 'text',
-                    class: 'ml-1',
-                    color: '',
-                  },
-                  VIcon: {
-                    size: 20,
-                  },
-                }"
-              >
-                <v-tooltip location="top">
-                  <template #activator="{ props }">
-                    <v-btn icon="mdi-rocket-launch-outline" v-bind="props" />
-                  </template>
-                  <span>Go!</span>
-                </v-tooltip>
-              </v-defaults-provider>
-            </template>
+            <v-defaults-provider
+              :defaults="{
+                VBtn: {
+                  size: 20,
+                  rounded: 'sm',
+                  variant: 'text',
+                  class: 'ml-1',
+                  color: '',
+                },
+                VIcon: {
+                  size: 20,
+                },
+              }"
+            >
+              <v-tooltip location="top">
+                <template #activator="{ props }">
+                  <v-btn icon="mdi-rocket-launch-outline" v-bind="props" />
+                </template>
+                <span>Go!</span>
+              </v-tooltip>
+            </v-defaults-provider>
           </v-data-table>
         </v-card>
       </v-col>

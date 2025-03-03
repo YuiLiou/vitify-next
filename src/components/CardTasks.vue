@@ -2,8 +2,7 @@
   <v-card>
     <v-card-title class="headline">Task List</v-card-title>
     <v-card-text>
-      <v-data-table :headers="headers" :items="tasks" item-value="name">
-      </v-data-table>
+      <v-data-table :headers="headers" :items="tasks" item-value="name" />
       <v-btn color="primary" text="Ok" @click="emit('close')">Close</v-btn>
     </v-card-text>
   </v-card>
@@ -59,7 +58,7 @@ const headers: DataTableHeaders = [
 ]
 
 onMounted(async () => {
-  let response = await fetchTasksByPjID(projectID.value)
+  const response = await fetchTasksByPjID(projectID.value)
   tasks.value = await response.data['tasks'].map((task: any) => ({
     ...task,
   }))
