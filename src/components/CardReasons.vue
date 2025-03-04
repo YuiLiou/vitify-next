@@ -84,6 +84,7 @@ const headers: DataTableHeaders = [
   { title: 'Status', key: 'testStatusString' },
   { title: 'Result', key: 'testResultString' },
   { title: 'Tool', key: 'tool' },
+  { title: 'Tags', key: 'tag' },
   { title: 'Pattern', key: 'pattern' },
 ]
 
