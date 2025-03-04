@@ -70,7 +70,7 @@
 
 <script setup lang="ts">
 import { toRef } from 'vue'
-import { fetchReasonByChipId } from '@/scripts/SampleHandlers'
+import { fetchReasonByChipId } from '@/scripts/sample-handlers'
 import type { DataTableHeaders } from '@/plugins/vuetify'
 
 const props = withDefaults(

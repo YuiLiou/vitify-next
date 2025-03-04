@@ -4,9 +4,9 @@ import {
   fetchSamplesByIc,
   fetchSamplesByIp,
   formatDateTime,
-} from '@/scripts/SampleHandlers'
-import { getTesterStatus } from '@/scripts/TesterHandlers'
-import { ssd_ics } from '@/scripts/IcHandlers'
+} from '@/scripts/sample-handlers'
+import { getTesterStatus } from '@/scripts/tester-handlers'
+import { ssd_ics } from '@/scripts/ic-handlers'
 
 const ipString = ref('')
 const samples = ref<any[]>([])

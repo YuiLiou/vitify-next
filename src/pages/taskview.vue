@@ -4,8 +4,8 @@ import {
   fetchProjects,
   getProjectStatus,
   formatDateTime,
-} from '@/scripts/ProjectHandlers'
-import { ssd_ics } from '@/scripts/IcHandlers'
+} from '@/scripts/project-handlers'
+import { ssd_ics } from '@/scripts/ic-handlers'
 import { ref } from 'vue'
 import DatePicker from 'vue-datepicker-next'
 import 'vue-datepicker-next/index.css'

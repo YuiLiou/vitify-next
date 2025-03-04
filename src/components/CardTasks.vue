@@ -10,7 +10,7 @@
 
 <script setup lang="ts">
 import { toRef } from 'vue'
-import { fetchTasksByPjID } from '@/scripts/TaskHandlers'
+import { fetchTasksByPjID } from '@/scripts/task-handlers'
 import type { DataTableHeaders } from '@/plugins/vuetify'
 const props = withDefaults(
   defineProps<{
