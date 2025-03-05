@@ -2,6 +2,8 @@
 // file: auth.proto
 
 import * as jspb from 'google-protobuf'
+import * as google_api_client_pb from './google/api/client_pb'
+import * as google_api_annotations_pb from './google/api/annotations_pb'
 
 export class LoginRequest extends jspb.Message {
   getAccount(): string
