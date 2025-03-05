@@ -13,9 +13,12 @@
     "format": "prettier . --write"
   },
   "dependencies": {
+    "@protobuf-ts/grpcweb-transport": "^2.9.4",
+    "@protobuf-ts/protoc": "^2.9.4",
     "@vueuse/core": "^12.5.0",
     "axios": "^1.7.9",
     "echarts": "^5.6.0",
+    "google-protobuf": "^3.21.4",
     "pinia": "^2.3.1",
     "vue": "^3.5.13",
     "vue-datepicker-next": "^1.0.3",
