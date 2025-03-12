@@ -5,7 +5,7 @@ import "google/api/client.proto";
 option go_package = "192.168.1.154/go/utility/v2/api/auth;auth";
 
 service AuthService {
-  option (google.api.default_host) = "192.168.197.152";
+  option (google.api.default_host) = "lynx.phison.com";
   rpc Login(LoginRequest) returns (LoginResponse);
 }
 

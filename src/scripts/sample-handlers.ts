@@ -17,10 +17,35 @@ export const fetchSamplesByIc = async (ic: string): Promise<any> => {
 }
 
 export const fetchReasonByChipId = async (chipId: string): Promise<any> => {
-  const response = await axios.get(
-    `http://192.168.40.235:8000/v2/view/dispatch/reason?chip_ids=${chipId}`,
-  )
-  return response
+  let pageToken = ''
+  const projects: { [projectId: string]: any } = {}
+  while (true) {
+    const response = await axios.get(
+      `http://192.168.40.235:8000/v2/view/dispatch/reason?chip_ids=${chipId}&pageSize=5000&pageToken=${pageToken}`,
+    );
+
+    pageToken = response.data.nextPageToken
+    const projectsData = response.data.projects
+
+    for (const p of projectsData) {
+      const projectId = p.projectId
+      if (!projects[projectId]) {
+        projects[projectId] = p
+      } else {
+        for (const task of p.tasks) {
+          if (
+            !projects[projectId].tasks.some((t) => t.taskId === task.taskId)
+          ) {
+            projects[projectId].tasks.push(task)
+          }
+        }
+      }
+    }
+    if (!pageToken) {
+      break;
+    }
+  }
+  return projects
 }
 
 export const formatDateTime = (dateTime: any) => {

@@ -7,8 +7,8 @@ const account = ref('')
 const password = ref('')
 
 const transport = new GrpcWebFetchTransport({
-  baseUrl: 'https://tic.phison.com:9011',
-});
+  baseUrl: 'http://lynx.phison.com:16888',
+})
 
 const client = new AuthServiceClient(transport)
 
@@ -18,15 +18,15 @@ async function login() {
   try {
     const request: LoginRequest = {
       account: account.value,
-      password: password.value
-    };
+      password: password.value,
+    }
 
-    const response = await client.login(request);
-    console.log('Login successful:', response);
-    return response;
+    const response = await client.login(request)
+    console.log('Login successful:', response)
+    return response
   } catch (error) {
-    console.log('Login failed:', error);
-    throw error;
+    console.log('Login failed:', error)
+    throw error
   }
 }
 

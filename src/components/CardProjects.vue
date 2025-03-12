@@ -89,35 +89,36 @@ const selectedPjId = ref('')
 const idToTasks = ref<Map<string, any[]>>(new Map())
 
 onMounted(async () => {
+  loading.value = true;
   try {
-    const response = await fetchReasonByChipId(ctrlId)
-    const projectData = await response.data['projects']
-    projects.value = projectData.map((p: any) => ({
-      ...p,
-      ic: p.product.ic,
-      projectValid: p.tasks.every((t: any) =>
-        Object.values(t.sampleIdToMismatch).every(
-          (m: any) => m.projectRelatives.length == 0,
-        ),
-      ),
-      taskValid: p.tasks.every((t: any) =>
-        Object.values(t.sampleIdToMismatch).every(
-          (m: any) => m.taskRelatives.length == 0,
-        ),
-      ),
-      sampleValid: p.tasks.every((t: any) =>
-        Object.values(t.sampleIdToMismatch).every(
-          (m: any) => m.sampleRelatives.length == 0,
-        ),
-      ),
-    }))
-    projectData.forEach((p: any) => {
+    const response = await fetchReasonByChipId(ctrlId);
+    for (const id in response) {
+      const p = response[id];
+      console.log(p.statusString);
+      const project = {
+        ...p,
+        ic: p.product.ic,
+        projectValid: true,
+        taskValid: true,
+        sampleValid: true,
+      };
+
+      for (const task of p.tasks) {
+        for (const mismatch of Object.values(task.sampleIdToMismatch)) {
+          if (mismatch.projectRelatives.length > 0) project.projectValid = false;
+          if (mismatch.taskRelatives.length > 0) project.taskValid = false;
+          if (mismatch.sampleRelatives.length > 0) project.sampleValid = false;
+        }
+      }
       idToTasks.value.set(p.projectId, p.tasks)
-    })
+      projects.value.push(project);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
   } finally {
-    loading.value = false
+    loading.value = false;
   }
-})
+});
 
 const headers: DataTableHeaders = [
   { title: 'Project', key: 'projectValid', sortable: false },
