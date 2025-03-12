@@ -16,9 +16,18 @@ export const fetchSamplesByIc = async (ic: string): Promise<any> => {
   return response
 }
 
+interface Task {
+  taskId: string;
+}
+
+interface Project {
+  projectId: string;
+  tasks: Task[];
+}
+
 export const fetchReasonByChipId = async (chipId: string): Promise<any> => {
   let pageToken = ''
-  const projects: { [projectId: string]: any } = {}
+  const projects: { [projectId: string]: Project } = {}
   while (true) {
     const response = await axios.get(
       `http://192.168.40.235:8000/v2/view/dispatch/reason?chip_ids=${chipId}&pageSize=5000&pageToken=${pageToken}`,
