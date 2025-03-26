@@ -7,6 +7,7 @@ import {
 } from '@/scripts/sample-handlers'
 import { getTesterStatus } from '@/scripts/tester-handlers'
 import { ssd_ics } from '@/scripts/ic-handlers'
+import ChatBot from '@/components/ChatBot.vue'
 
 const ipString = ref('')
 const samples = ref<any[]>([])
@@ -174,5 +175,6 @@ const headers: DataTableHeaders = [
     <v-dialog v-model="dialog">
       <card-projects :ctrl-id="selectedCtrlId" @close="dialog = false" />
     </v-dialog>
+    <ChatBot />
   </v-container>
 </template>
