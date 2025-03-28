@@ -14,20 +14,24 @@
         :loading="loading"
       >
         <template #item.projectValid="{ item }">
-          <v-icon :color="item.projectValid ? 'green' : 'red'">
-            {{ item.projectValid ? 'mdi-check-circle' : 'mdi-alert-circle' }}
-          </v-icon>
+          <v-tooltip location="top">
+            <template #activator="{ props: tooltipProps }">
+              <v-icon
+                v-bind="tooltipProps"
+                :color="item.projectValid ? 'green' : 'red'"
+              >
+                {{
+                  item.projectValid ? 'mdi-check-circle' : 'mdi-alert-circle'
+                }}
+              </v-icon>
+            </template>
+            <span v-if="item.projectReason != ''">{{
+              item.projectReason
+            }}</span>
+            <span v-else>OK!</span>
+          </v-tooltip>
         </template>
-        <template #item.taskValid="{ item }">
-          <v-icon :color="item.taskValid ? 'green' : 'red'">
-            {{ item.taskValid ? 'mdi-check-circle' : 'mdi-alert-circle' }}
-          </v-icon>
-        </template>
-        <template #item.sampleValid="{ item }">
-          <v-icon :color="item.sampleValid ? 'green' : 'red'">
-            {{ item.sampleValid ? 'mdi-check-circle' : 'mdi-alert-circle' }}
-          </v-icon>
-        </template>
+
         <template #item.action="{ item }">
           <v-defaults-provider
             :defaults="{
@@ -89,46 +93,51 @@ const selectedPjId = ref('')
 const idToTasks = ref<Map<string, any[]>>(new Map())
 
 onMounted(async () => {
-  loading.value = true;
+  loading.value = true
   try {
-    const response = await fetchReasonByChipId(ctrlId);
+    const response = await fetchReasonByChipId(ctrlId)
     for (const id in response) {
-      const p = response[id];
-      console.log(p.statusString);
+      const p = response[id]
+      console.log(p.statusString)
       const project = {
         ...p,
         ic: p.product.ic,
+        flash: p.product.flash,
         projectValid: true,
-        taskValid: true,
-        sampleValid: true,
-      };
+        projectReason: '',
+      }
 
       for (const task of p.tasks) {
         for (const mismatch of Object.values(task.sampleIdToMismatch)) {
-          if (mismatch.projectRelatives.length > 0) project.projectValid = false;
-          if (mismatch.taskRelatives.length > 0) project.taskValid = false;
-          if (mismatch.sampleRelatives.length > 0) project.sampleValid = false;
+          if (mismatch.projectRelatives.length > 0) {
+            project.projectValid = false
+          }
+          project.projectReason = Object.values(task.sampleIdToMismatch)
+            .map((m: any) => m.projectRelatives.join(', '))
+            .filter(Boolean)
+            .join(', ')
+          break
         }
+        break
       }
       idToTasks.value.set(p.projectId, p.tasks)
-      projects.value.push(project);
+      projects.value.push(project)
     }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error('Error fetching data:', error)
   } finally {
-    loading.value = false;
+    loading.value = false
   }
-});
+})
 
 const headers: DataTableHeaders = [
   { title: 'Project', key: 'projectValid', sortable: false },
-  { title: 'Task', key: 'taskValid', sortable: false },
-  { title: 'Sample', key: 'sampleValid', sortable: false },
   {
     title: 'PJ_ID',
     key: 'projectId',
   },
   { title: 'IC', key: 'ic' },
+  { title: 'Flash', key: 'flash' },
   { title: 'Capacity', key: 'mpCapacity' },
   { title: 'Status', key: 'statusString' },
   { title: 'Result', key: 'testResultString' },

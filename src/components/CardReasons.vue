@@ -95,10 +95,11 @@ onMounted(async () => {
       (m: any) => m.projectRelatives.length == 0,
     ),
     taskValid: Object.values(t.sampleIdToMismatch).every(
-      (m: any) => m.taskRelatives.length == 0,
+      (m: any) => m.projectRelatives.length == 0 && m.taskRelatives.length == 0,
     ),
     sampleValid: Object.values(t.sampleIdToMismatch).every(
-      (m: any) => m.sampleRelatives.length == 0,
+      (m: any) =>
+        m.projectRelatives.length == 0 && m.sampleRelatives.length == 0,
     ),
     projectReason: Object.values(t.sampleIdToMismatch)
       .map((m: any) => m.projectRelatives.join(', '))

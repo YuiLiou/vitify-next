@@ -17,12 +17,12 @@ export const fetchSamplesByIc = async (ic: string): Promise<any> => {
 }
 
 interface Task {
-  taskId: string;
+  taskId: string
 }
 
 interface Project {
-  projectId: string;
-  tasks: Task[];
+  projectId: string
+  tasks: Task[]
 }
 
 export const fetchReasonByChipId = async (chipId: string): Promise<any> => {
@@ -31,7 +31,7 @@ export const fetchReasonByChipId = async (chipId: string): Promise<any> => {
   while (true) {
     const response = await axios.get(
       `http://192.168.40.235:8000/v2/view/dispatch/reason?chip_ids=${chipId}&pageSize=500&pageToken=${pageToken}`,
-    );
+    )
 
     pageToken = response.data.nextPageToken
     const projectsData = response.data.projects
@@ -51,7 +51,7 @@ export const fetchReasonByChipId = async (chipId: string): Promise<any> => {
       }
     }
     if (!pageToken) {
-      break;
+      break
     }
   }
   return projects

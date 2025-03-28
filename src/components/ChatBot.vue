@@ -23,21 +23,12 @@ function sendMessage() {
 <template>
   <div>
     <!-- Chatbot Toggle Button -->
-    <v-btn
-      icon
-      class="chatbot-toggle"
-      color="primary"
-      @click="toggleChatbot"
-    >
+    <v-btn icon class="chatbot-toggle" color="primary" @click="toggleChatbot">
       <v-icon>mdi-chat</v-icon>
     </v-btn>
 
     <!-- Chatbot UI -->
-    <v-card
-      v-if="chatbotVisible"
-      class="chatbot-ui"
-      elevation="10"
-    >
+    <v-card v-if="chatbotVisible" class="chatbot-ui" elevation="10">
       <v-card-title class="d-flex justify-space-between">
         Chatbot
         <v-btn icon @click="toggleChatbot">
