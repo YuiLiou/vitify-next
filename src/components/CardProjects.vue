@@ -8,7 +8,7 @@
       </v-text-field>
       <v-data-table
         :headers="headers"
-        :items="projects"
+        :items="displayedProjects"
         item-value="name"
         loading-text="Loading... Please wait"
         :loading="loading"
@@ -31,7 +31,6 @@
             <span v-else>OK!</span>
           </v-tooltip>
         </template>
-
         <template #item.action="{ item }">
           <v-defaults-provider
             :defaults="{
@@ -42,9 +41,7 @@
                 class: 'ml-1',
                 color: '',
               },
-              VIcon: {
-                size: 20,
-              },
+              VIcon: { size: 20 },
             }"
           >
             <v-tooltip location="top">
@@ -73,55 +70,53 @@
 </template>
 
 <script setup lang="ts">
-import { toRef } from 'vue'
+import { toRef, ref, onMounted } from 'vue'
 import { fetchReasonByChipId } from '@/scripts/sample-handlers'
 import type { DataTableHeaders } from '@/plugins/vuetify'
 
-const props = withDefaults(
-  defineProps<{
-    ctrlId: string
-  }>(),
-  {
-    ctrlId: '',
-  },
-)
+const props = withDefaults(defineProps<{ ctrlId: string }>(), { ctrlId: '' })
 const ctrlId = toRef(props, 'ctrlId').value.replace(/\s+/g, '')
 const projects = ref<any[]>([])
+const displayedProjects = ref<any[]>([])
 const loading = ref(true)
 const dialog = ref(false)
 const selectedPjId = ref('')
 const idToTasks = ref<Map<string, any[]>>(new Map())
-
 onMounted(async () => {
-  loading.value = true
   try {
-    const response = await fetchReasonByChipId(ctrlId)
-    for (const id in response) {
-      const p = response[id]
-      console.log(p.statusString)
-      const project = {
-        ...p,
-        ic: p.product.ic,
-        flash: p.product.flash,
-        projectValid: true,
-        projectReason: '',
-      }
-
-      for (const task of p.tasks) {
-        for (const mismatch of Object.values(task.sampleIdToMismatch)) {
-          if (mismatch.projectRelatives.length > 0) {
-            project.projectValid = false
+    const generator = fetchReasonByChipId(ctrlId)
+    for await (const projectsData of generator) {
+      projectsData.forEach((p) => {
+        const projectId = p.projectId
+        let project = projects.value.find(
+          (proj: any) => proj.projectId === projectId,
+        )
+        if (!project) {
+          project = {
+            ...p,
+            ic: p.product.ic,
+            flash: p.product.flash,
+            projectValid: true,
+            projectReason: '',
           }
-          project.projectReason = Object.values(task.sampleIdToMismatch)
-            .map((m: any) => m.projectRelatives.join(', '))
-            .filter(Boolean)
-            .join(', ')
+          projects.value.push(project)
+        }
+        for (const task of p.tasks) {
+          for (const mismatch of Object.values(task.sampleIdToMismatch)) {
+            if (mismatch.projectRelatives.length > 0) {
+              project.projectValid = false
+            }
+            project.projectReason = Object.values(task.sampleIdToMismatch)
+              .map((m: any) => m.projectRelatives.join(', '))
+              .filter(Boolean)
+              .join(', ')
+            break
+          }
           break
         }
-        break
-      }
-      idToTasks.value.set(p.projectId, p.tasks)
-      projects.value.push(project)
+        idToTasks.value.set(p.projectId, p.tasks)
+        displayedProjects.value = [...projects.value]
+      })
     }
   } catch (error) {
     console.error('Error fetching data:', error)
@@ -129,13 +124,9 @@ onMounted(async () => {
     loading.value = false
   }
 })
-
 const headers: DataTableHeaders = [
   { title: 'Project', key: 'projectValid', sortable: false },
-  {
-    title: 'PJ_ID',
-    key: 'projectId',
-  },
+  { title: 'PJ_ID', key: 'projectId' },
   { title: 'IC', key: 'ic' },
   { title: 'Flash', key: 'flash' },
   { title: 'Capacity', key: 'mpCapacity' },

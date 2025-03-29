@@ -25,36 +25,23 @@ interface Project {
   tasks: Task[]
 }
 
-export const fetchReasonByChipId = async (chipId: string): Promise<any> => {
+export const fetchReasonByChipId = async function* (
+  chipId: string,
+): AsyncGenerator<any> {
   let pageToken = ''
-  const projects: { [projectId: string]: Project } = {}
   while (true) {
     const response = await axios.get(
-      `http://192.168.40.235:8000/v2/view/dispatch/reason?chip_ids=${chipId}&pageSize=500&pageToken=${pageToken}`,
+      `http://192.168.40.235:8000/v2/view/dispatch/reason?chip_ids=${chipId}&pageSize=100&pageToken=${pageToken}`,
     )
 
     pageToken = response.data.nextPageToken
     const projectsData = response.data.projects
+    yield projectsData
 
-    for (const p of projectsData) {
-      const projectId = p.projectId
-      if (!projects[projectId]) {
-        projects[projectId] = p
-      } else {
-        for (const task of p.tasks) {
-          if (
-            !projects[projectId].tasks.some((t) => t.taskId === task.taskId)
-          ) {
-            projects[projectId].tasks.push(task)
-          }
-        }
-      }
-    }
     if (!pageToken) {
       break
     }
   }
-  return projects
 }
 
 export const formatDateTime = (dateTime: any) => {
