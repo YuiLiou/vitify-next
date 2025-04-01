@@ -114,7 +114,11 @@ onMounted(async () => {
           }
           break
         }
-        idToTasks.value.set(p.projectId, p.tasks)
+        if (idToTasks.value.has(p.projectId)) {
+          idToTasks.value.get(p.projectId).push(...p.tasks)
+        } else {
+          idToTasks.value.set(p.projectId, p.tasks)
+        }
         displayedProjects.value = [...projects.value]
       })
     }

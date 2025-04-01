@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import { chat } from '@/scripts/chat-handlers'
 
 const chatbotVisible = ref(false)
 const chatbotMessages = ref([
@@ -11,10 +12,16 @@ function toggleChatbot() {
   chatbotVisible.value = !chatbotVisible.value
 }
 
-function sendMessage() {
-  if (userMessage.value.trim()) {
-    chatbotMessages.value.push({ sender: 'user', text: userMessage.value })
-    chatbotMessages.value.push({ sender: 'bot', text: 'I am here to help!' }) // Replace with actual bot response logic
+const sendMessage = () => {
+  const trimmedMessage = userMessage.value.trim()
+  if (trimmedMessage) {
+    chatbotMessages.value.push({ sender: 'user', text: trimmedMessage })
+    chat(trimmedMessage).then((response) => {
+      chatbotMessages.value.push({
+        sender: 'bot',
+        text: response.explanation || "I don't have an answer for that.",
+      })
+    })
     userMessage.value = ''
   }
 }
@@ -74,7 +81,7 @@ function sendMessage() {
   position: fixed;
   bottom: 80px;
   right: 16px;
-  width: 300px;
+  width: 600px;
   max-height: 400px;
   display: flex;
   flex-direction: column;
