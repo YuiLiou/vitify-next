@@ -25,6 +25,7 @@
     "axios": "^1.7.9",
     "echarts": "^5.6.0",
     "google-protobuf": "^3.21.4",
+    "markdown-it": "^14.1.0",
     "pinia": "^2.3.1",
     "protobufjs": "^7.4.0",
     "ts-proto": "^2.6.1",

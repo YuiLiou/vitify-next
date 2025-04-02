@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { chat } from '@/scripts/chat-handlers'
+import MarkdownIt from 'markdown-it';
 
 const chatbotVisible = ref(false)
 const chatbotMessages = ref([
@@ -9,13 +10,14 @@ const chatbotMessages = ref([
 const userMessage = ref('')
 const thinkingDots = ref('')
 const isThinking = ref(false)
+const md = new MarkdownIt();
 
 function toggleChatbot() {
   chatbotVisible.value = !chatbotVisible.value
 }
 
 const sendMessage = () => {
-  const trimmedMessage = userMessage.value.trim()
+  const trimmedMessage = userMessage.value.trim();
 
   if (trimmedMessage) {
     chatbotMessages.value.push({ sender: 'user', text: trimmedMessage })
@@ -25,7 +27,7 @@ const sendMessage = () => {
     chat(trimmedMessage).then((response) => {
       chatbotMessages.value[lastIndex] = {
         sender: 'bot',
-        text: response.explanation || "I don't have an answer for that.",
+        text: md.render(response.explanation) || "I don't have an answer for that.",
       }
       isThinking.value = false
       thinkingDots.value = ''
@@ -74,9 +76,8 @@ onMounted(() => {
           v-for="(message, index) in chatbotMessages"
           :key="index"
           :class="['chat-message', message.sender]"
-        >
-          {{ message.text }}
-        </div>
+          v-html="message.text"
+        />
       </v-card-text>
       <v-divider />
       <v-card-actions>
