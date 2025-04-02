@@ -7,6 +7,8 @@ const chatbotMessages = ref([
   { sender: 'bot', text: 'Hello! How can I assist you today?' },
 ])
 const userMessage = ref('')
+const thinkingDots = ref('')
+const isThinking = ref(false)
 
 function toggleChatbot() {
   chatbotVisible.value = !chatbotVisible.value
@@ -14,17 +16,41 @@ function toggleChatbot() {
 
 const sendMessage = () => {
   const trimmedMessage = userMessage.value.trim()
+
   if (trimmedMessage) {
     chatbotMessages.value.push({ sender: 'user', text: trimmedMessage })
+    chatbotMessages.value.push({ sender: 'bot', text: 'Thinking' })
+    const lastIndex = chatbotMessages.value.length - 1
+    isThinking.value = true
     chat(trimmedMessage).then((response) => {
-      chatbotMessages.value.push({
+      chatbotMessages.value[lastIndex] = {
         sender: 'bot',
         text: response.explanation || "I don't have an answer for that.",
-      })
+      }
+      isThinking.value = false
+      thinkingDots.value = ''
     })
     userMessage.value = ''
   }
 }
+
+onMounted(() => {
+  setInterval(() => {
+    if (isThinking.value) {
+      if (thinkingDots.value.length < 3) {
+        thinkingDots.value += '.'
+      } else {
+        thinkingDots.value = ''
+      }
+      const lastIndex = chatbotMessages.value.length - 1
+      if (chatbotMessages.value[lastIndex].text === 'Thinking') {
+        chatbotMessages.value[lastIndex].text = 'Thinking' + thinkingDots.value
+      } else if (chatbotMessages.value[lastIndex].text.startsWith('Thinking')) {
+        chatbotMessages.value[lastIndex].text = 'Thinking' + thinkingDots.value
+      }
+    }
+  }, 500)
+})
 </script>
 
 <template>
@@ -60,6 +86,7 @@ const sendMessage = () => {
           dense
           hide-details
           class="flex-grow-1"
+          @keydown.enter="sendMessage"
         />
         <v-btn icon color="primary" @click="sendMessage">
           <v-icon>mdi-send</v-icon>
