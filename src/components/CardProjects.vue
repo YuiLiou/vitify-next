@@ -98,6 +98,7 @@ onMounted(async () => {
             flash: p.product.flash,
             projectValid: true,
             projectReason: '',
+            capacity: p.product.totalCapacity,
           }
           projects.value.push(project)
         }
@@ -133,7 +134,7 @@ const headers: DataTableHeaders = [
   { title: 'PJ_ID', key: 'projectId' },
   { title: 'IC', key: 'ic' },
   { title: 'Flash', key: 'flash' },
-  { title: 'Capacity', key: 'mpCapacity' },
+  { title: 'Capacity', key: 'capacity' },
   { title: 'Status', key: 'statusString' },
   { title: 'Result', key: 'testResultString' },
   { title: 'FW Version', key: 'fwVersion' },
