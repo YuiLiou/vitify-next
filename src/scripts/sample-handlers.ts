@@ -16,34 +16,6 @@ export const fetchSamplesByIc = async (ic: string): Promise<any> => {
   return response
 }
 
-interface Task {
-  taskId: string
-}
-
-interface Project {
-  projectId: string
-  tasks: Task[]
-}
-
-export const fetchReasonByChipId = async function* (
-  chipId: string,
-): AsyncGenerator<any> {
-  let pageToken = ''
-  while (true) {
-    const response = await axios.get(
-      `http://192.168.40.235:8000/v1/dispatch/reason?chip_ids=${chipId}&pageSize=500&pageToken=${pageToken}`,
-    )
-
-    pageToken = response.data.nextPageToken
-    const projectsData = response.data.projects
-    yield projectsData
-
-    if (!pageToken) {
-      break
-    }
-  }
-}
-
 export const formatDateTime = (dateTime: any) => {
   const date = new Date(dateTime)
   const formattedDate = date.toISOString().split('T')[0]

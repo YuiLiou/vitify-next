@@ -71,7 +71,7 @@
 
 <script setup lang="ts">
 import { toRef, ref, onMounted } from 'vue'
-import { fetchReasonByChipId } from '@/scripts/sample-handlers'
+import { fetchDispatchReasonByChip } from '@/scripts/dispatch-handlers'
 import type { DataTableHeaders } from '@/plugins/vuetify'
 
 const props = withDefaults(defineProps<{ ctrlId: string }>(), { ctrlId: '' })
@@ -84,7 +84,7 @@ const selectedPjId = ref('')
 const idToTasks = ref<Map<string, any[]>>(new Map())
 onMounted(async () => {
   try {
-    const generator = fetchReasonByChipId(ctrlId)
+    const generator = fetchDispatchReasonByChip(ctrlId)
     for await (const projectsData of generator) {
       projectsData.forEach((p) => {
         const projectId = p.projectId
