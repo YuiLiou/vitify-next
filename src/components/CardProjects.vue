@@ -45,10 +45,10 @@
             }"
           >
             <v-tooltip location="top">
-              <template #activator="{ props }">
+              <template #activator="{ taskProps }">
                 <v-btn
                   icon="mdi-rocket-launch-outline"
-                  v-bind="props"
+                  v-bind="taskProps"
                   @click="openDialog(item.projectId)"
                 />
               </template>
