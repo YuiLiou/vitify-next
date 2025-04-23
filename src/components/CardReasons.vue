@@ -10,16 +10,27 @@
             <template #activator="{ props: tooltipProps }">
               <v-icon
                 v-bind="tooltipProps"
-                :color="item.projectValid ? 'green' : 'red'"
+                :color="
+                  item.testStatusString === 'Finished'
+                    ? 'yellow'
+                    : item.projectValid
+                      ? 'green'
+                      : 'red'
+                "
               >
                 {{
-                  item.projectValid ? 'mdi-check-circle' : 'mdi-alert-circle'
+                  item.testStatusString === 'Finished'
+                    ? 'mdi-alert'
+                    : item.projectValid
+                      ? 'mdi-check-circle'
+                      : 'mdi-alert-circle'
                 }}
               </v-icon>
             </template>
             <span v-if="item.projectReason != ''">{{
               item.projectReason
             }}</span>
+            <span v-else-if="item.testStatusString === 'Finished'">Finish</span>
             <span v-else>OK!</span>
           </v-tooltip>
         </template>
@@ -28,12 +39,25 @@
             <template #activator="{ props: tooltipProps }">
               <v-icon
                 v-bind="tooltipProps"
-                :color="item.taskValid ? 'green' : 'red'"
+                :color="
+                  item.testStatusString === 'Finished'
+                    ? 'yellow'
+                    : item.taskValid
+                      ? 'green'
+                      : 'red'
+                "
               >
-                {{ item.taskValid ? 'mdi-check-circle' : 'mdi-alert-circle' }}
+                {{
+                  item.testStatusString === 'Finished'
+                    ? 'mdi-alert'
+                    : item.taskValid
+                      ? 'mdi-check-circle'
+                      : 'mdi-alert-circle'
+                }}
               </v-icon>
             </template>
             <span v-if="item.taskReason != ''">{{ item.taskReason }}</span>
+            <span v-else-if="item.testStatusString === 'Finished'">Finish</span>
             <span v-else>OK!</span>
           </v-tooltip>
         </template>
@@ -42,12 +66,25 @@
             <template #activator="{ props: tooltipProps }">
               <v-icon
                 v-bind="tooltipProps"
-                :color="item.sampleValid ? 'green' : 'red'"
+                :color="
+                  item.testStatusString === 'Finished'
+                    ? 'yellow'
+                    : item.sampleValid
+                      ? 'green'
+                      : 'red'
+                "
               >
-                {{ item.sampleValid ? 'mdi-check-circle' : 'mdi-alert-circle' }}
+                {{
+                  item.testStatusString === 'Finished'
+                    ? 'mdi-alert'
+                    : item.sampleValid
+                      ? 'mdi-check-circle'
+                      : 'mdi-alert-circle'
+                }}
               </v-icon>
             </template>
             <span v-if="item.sampleReason != ''">{{ item.sampleReason }}</span>
+            <span v-else-if="item.testStatusString === 'Finished'">Finish</span>
             <span v-else>OK!</span>
           </v-tooltip>
         </template>
