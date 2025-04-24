@@ -11,7 +11,7 @@
               <v-icon
                 v-bind="tooltipProps"
                 :color="
-                  item.testStatusString === 'Finished'
+                  item.testStatusString !== 'Idle'
                     ? 'yellow'
                     : item.projectValid
                       ? 'green'
@@ -19,7 +19,7 @@
                 "
               >
                 {{
-                  item.testStatusString === 'Finished'
+                  item.testStatusString !== 'Idle'
                     ? 'mdi-alert'
                     : item.projectValid
                       ? 'mdi-check-circle'
@@ -30,7 +30,7 @@
             <span v-if="item.projectReason != ''">{{
               item.projectReason
             }}</span>
-            <span v-else-if="item.testStatusString === 'Finished'">Finish</span>
+            <span v-else-if="item.testStatusString !== 'Idle'">Block</span>
             <span v-else>OK!</span>
           </v-tooltip>
         </template>
@@ -40,7 +40,7 @@
               <v-icon
                 v-bind="tooltipProps"
                 :color="
-                  item.testStatusString === 'Finished'
+                  item.testStatusString !== 'Idle'
                     ? 'yellow'
                     : item.taskValid
                       ? 'green'
@@ -48,7 +48,7 @@
                 "
               >
                 {{
-                  item.testStatusString === 'Finished'
+                  item.testStatusString !== 'Idle'
                     ? 'mdi-alert'
                     : item.taskValid
                       ? 'mdi-check-circle'
@@ -57,7 +57,7 @@
               </v-icon>
             </template>
             <span v-if="item.taskReason != ''">{{ item.taskReason }}</span>
-            <span v-else-if="item.testStatusString === 'Finished'">Finish</span>
+            <span v-else-if="item.testStatusString !== 'Idle'">Block</span>
             <span v-else>OK!</span>
           </v-tooltip>
         </template>
@@ -67,7 +67,7 @@
               <v-icon
                 v-bind="tooltipProps"
                 :color="
-                  item.testStatusString === 'Finished'
+                  item.testStatusString !== 'Idle'
                     ? 'yellow'
                     : item.sampleValid
                       ? 'green'
@@ -75,7 +75,7 @@
                 "
               >
                 {{
-                  item.testStatusString === 'Finished'
+                  item.testStatusString !== 'Idle'
                     ? 'mdi-alert'
                     : item.sampleValid
                       ? 'mdi-check-circle'
@@ -84,7 +84,7 @@
               </v-icon>
             </template>
             <span v-if="item.sampleReason != ''">{{ item.sampleReason }}</span>
-            <span v-else-if="item.testStatusString === 'Finished'">Finish</span>
+            <span v-else-if="item.testStatusString !== 'Idle'">Block</span>
             <span v-else>OK!</span>
           </v-tooltip>
         </template>
@@ -126,7 +126,7 @@ const headers: DataTableHeaders = [
 ]
 
 onMounted(async () => {
-  taskDetails.value = props.tasks.map((t: any) => ({
+  const mappedTasks = props.tasks.map((t: any) => ({
     ...t,
     projectValid: Object.values(t.sampleIdToMismatch).every(
       (m: any) => m.projectRelatives.length == 0,
@@ -151,7 +151,22 @@ onMounted(async () => {
       .filter(Boolean)
       .join(', '),
   }))
+
+  mappedTasks.sort(sortTasks)
+  taskDetails.value = mappedTasks
 })
 
 const emit = defineEmits(['close'])
+
+const sortTasks = (a: any, b: any) => {
+  const isAIdle = a.testStatusString === 'Idle'
+  const isBIdle = b.testStatusString === 'Idle'
+
+  if (isAIdle && !isBIdle) {
+    return -1
+  } else if (!isAIdle && isBIdle) {
+    return 1
+  }
+  return 0
+}
 </script>
