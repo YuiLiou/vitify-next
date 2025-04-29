@@ -158,6 +158,10 @@ onMounted(async () => {
 
 const emit = defineEmits(['close'])
 
+const isTaskFullyValid = (task: any): boolean => {
+  return task.projectValid && task.sampleValid && task.taskValid
+}
+
 const sortTasks = (a: any, b: any) => {
   const isAIdle = a.testStatusString === 'Idle'
   const isBIdle = b.testStatusString === 'Idle'
@@ -167,6 +171,14 @@ const sortTasks = (a: any, b: any) => {
   } else if (!isAIdle && isBIdle) {
     return 1
   }
+
+  const isAValid = isTaskFullyValid(a)
+  const isBValid = isTaskFullyValid(b)
+
+  if (isAValid !== isBValid) {
+    return isAValid ? -1 : 1
+  }
+
   return 0
 }
 </script>
