@@ -30,11 +30,11 @@ const projectStatuses: ProjectStatuses = {
 }
 
 export const getProjectStatus = (s: number) =>
-  projectStatuses[s] || 'Unknown status';
+  projectStatuses[s] || 'Unknown status'
 
 type ActionModes = {
   [key: number]: string
-};
+}
 
 const actionModes: ActionModes = {
   0: 'Auto_Mode',
@@ -50,10 +50,9 @@ const actionModes: ActionModes = {
   10: 'RD_Mode',
   11: '',
   12: 'AIDAPTEST',
-};
+}
 
-export const getActionMode = (s: number) =>
-  actionModes[s] || 'Unknown status';
+export const getActionMode = (s: number) => actionModes[s] || 'Unknown status'
 
 export const formatDateTime = (dateTime: any) => {
   const date = new Date(dateTime)

@@ -10,7 +10,11 @@
 
 <script setup lang="ts">
 import { toRef } from 'vue'
-import { fetchTasksByPjID } from '@/scripts/task-handlers'
+import {
+  fetchTasksByPjID,
+  getTaskStatus,
+  getTaskResult,
+} from '@/scripts/task-handlers'
 import type { DataTableHeaders } from '@/plugins/vuetify'
 const props = withDefaults(
   defineProps<{
@@ -51,16 +55,14 @@ const headers: DataTableHeaders = [
     title: 'Start',
     key: 'runningStartTime',
   },
-  {
-    title: 'Status',
-    key: 'testStatus',
-  },
 ]
 
 onMounted(async () => {
   const response = await fetchTasksByPjID(projectID.value)
   tasks.value = await response.data['tasks'].map((task: any) => ({
     ...task,
+    testStatus: getTaskStatus(task.testStatus),
+    testResult: getTaskResult(task.testResult),
   }))
 })
 
