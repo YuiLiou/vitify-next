@@ -4,6 +4,7 @@ import {
   fetchProjects,
   getProjectStatus,
   formatDateTime,
+  getActionMode,
 } from '@/scripts/project-handlers'
 import { ssd_ics } from '@/scripts/ic-handlers'
 import { ref } from 'vue'
@@ -63,6 +64,7 @@ const getProject = async () => {
     fwVersion: `${p.fwVersion}-${p.fwSubVersion}`,
     status: getProjectStatus(p.status),
     establishDate: formatDateTime(p.establishDate),
+    actionMode: getActionMode(p.actionMode),
   }))
   loading.value = false
 }

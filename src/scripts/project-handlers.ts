@@ -21,9 +21,6 @@ type ProjectStatuses = {
   [key: number]: string
 }
 
-export const getProjectStatus = (s: number) =>
-  projectStatuses[s] || 'Unknown status'
-
 const projectStatuses: ProjectStatuses = {
   0: 'Idle',
   1: 'Running',
@@ -31,6 +28,32 @@ const projectStatuses: ProjectStatuses = {
   3: 'Closed',
   4: 'NeedMPFiles',
 }
+
+export const getProjectStatus = (s: number) =>
+  projectStatuses[s] || 'Unknown status';
+
+type ActionModes = {
+  [key: number]: string
+};
+
+const actionModes: ActionModes = {
+  0: 'Auto_Mode',
+  1: 'Manual_Mode',
+  2: 'Daily_Mode',
+  3: 'Mix_Mode',
+  4: 'ReleaseTest_Mode',
+  5: 'Informal_Mode',
+  6: 'TE_Mode',
+  7: '',
+  8: 'MPManager_Mode',
+  9: 'SuperHot_Mode',
+  10: 'RD_Mode',
+  11: '',
+  12: 'AIDAPTEST',
+};
+
+export const getActionMode = (s: number) =>
+  actionModes[s] || 'Unknown status';
 
 export const formatDateTime = (dateTime: any) => {
   const date = new Date(dateTime)
