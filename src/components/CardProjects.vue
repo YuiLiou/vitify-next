@@ -58,7 +58,7 @@
         </template>
       </v-data-table>
       <v-dialog v-model="dialog">
-        <card-reasons
+        <card-project-dispatch
           :project-id="selectedPjId"
           :tasks="idToTasks.get(selectedPjId) || []"
           @close="dialog = false"

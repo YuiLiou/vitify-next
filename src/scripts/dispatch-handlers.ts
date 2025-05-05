@@ -18,3 +18,12 @@ export const fetchDispatchReasonByChip = async function* (
     }
   }
 }
+
+export const fetchDispatchReasonByTask = async (
+  taskId: string,
+): Promise<any> => {
+  const response = await axios.get(
+    `http://192.168.40.235:8000/v1/dispatch/task?task_id=${taskId}`,
+  )
+  return response.data
+}
